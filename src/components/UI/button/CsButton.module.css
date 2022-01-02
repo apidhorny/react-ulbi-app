@@ -1,0 +1,12 @@
+.csBtn {
+    padding: 0.5rem;
+    border: 2px solid #2cb67d;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.csBtn:hover {
+    background-color: #2cb67d;
+}
