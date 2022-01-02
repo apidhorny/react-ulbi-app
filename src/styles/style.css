@@ -38,3 +38,10 @@
 .header-main {
     text-align: center;
 }
+.hr-line {
+    margin: 1rem 0;
+    border: 2px solid #2cb67d;
+}
+.no-posts {
+    text-align: center;
+}

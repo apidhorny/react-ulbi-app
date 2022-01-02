@@ -1,4 +1,5 @@
 import React from 'react';
+import CsButton from './UI/button/CsButton';
 
 const PostItem = (props) => {
     return (
@@ -12,7 +13,9 @@ const PostItem = (props) => {
                 <div>{props.post.body}</div>
             </div>
             <div className='pots__btns'>
-                <button className='btn--delete'>Delete</button>
+                <CsButton onClick={() => props.remove(props.post)} className='btn--delete'>
+                    Delete
+                </CsButton>
             </div>
         </div>
     );
