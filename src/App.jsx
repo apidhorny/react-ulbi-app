@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import NoPosts from './components/NoPosts';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
+import CsInput from './components/UI/input/CsInput';
 import CsSelect from './components/UI/select/CsSelect';
 import './styles/style.css';
 
@@ -13,6 +14,17 @@ function App() {
     ]);
 
     const [selectedSort, setSelectedSort] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const getSortedPosts = () => {
+        console.log('ss');
+        if (selectedSort) {
+            return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]));
+        }
+        return posts;
+    };
+
+    const sortedPosts = getSortedPosts();
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
@@ -24,13 +36,13 @@ function App() {
 
     const sortPosts = (sort) => {
         setSelectedSort(sort);
-        setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])));
     };
 
     return (
         <div className='App'>
             <PostForm create={createPost} />
             <hr className='hr-line' />
+            <CsInput placeholder='Search...' value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} />
             <CsSelect
                 value={selectedSort}
                 onChange={sortPosts}
@@ -40,7 +52,7 @@ function App() {
                     { value: 'body', name: 'By Body' },
                 ]}
             />
-            {posts.length ? <PostList remove={removePost} posts={posts} title={'Posts List'} /> : <NoPosts />}
+            {posts.length ? <PostList remove={removePost} posts={sortedPosts} title={'Posts List'} /> : <NoPosts />}
         </div>
     );
 }
