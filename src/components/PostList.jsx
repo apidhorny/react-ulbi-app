@@ -1,7 +1,12 @@
 import React from 'react';
 import PostItem from './PostItem';
+import NoPosts from './NoPosts';
 
 const PostList = ({ posts, title, remove }) => {
+    if (!posts.length) {
+        return <NoPosts />;
+    }
+
     return (
         <div>
             <h1 className='header-main'>{title}</h1>
