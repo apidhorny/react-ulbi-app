@@ -2,6 +2,9 @@ import React, { useMemo, useState } from 'react';
 import PostFilter from './components/PostFilter';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
+import CsButton from './components/UI/button/CsButton';
+import CsModal from './components/UI/modal/CsModal';
+import { usePosts } from './hooks/usePosts';
 import './styles/style.css';
 
 function App() {
@@ -12,20 +15,12 @@ function App() {
     ]);
 
     const [filter, setFilter] = useState({ sort: '', query: '' });
-
-    const sortedPosts = useMemo(() => {
-        if (filter.sort) {
-            return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]));
-        }
-        return posts;
-    }, [filter.sort, posts]);
-
-    const sortedAndSearchedPosts = useMemo(() => {
-        return sortedPosts.filter((post) => post.title.toLowerCase().includes(filter.query.toLowerCase()));
-    }, [filter.query, sortedPosts]);
+    const [modal, setModal] = useState(false);
+    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
+        setModal(false);
     };
 
     const removePost = (post) => {
@@ -34,7 +29,10 @@ function App() {
 
     return (
         <div className='App'>
-            <PostForm create={createPost} />
+            <CsButton onClick={() => setModal(true)}>Add New Post</CsButton>
+            <CsModal visible={modal} setVisible={setModal}>
+                <PostForm create={createPost} />
+            </CsModal>
             <hr className='hr-line' />
             <PostFilter filter={filter} setFilter={setFilter} />
             <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Posts List'} />
